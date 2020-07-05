@@ -1,9 +1,17 @@
+import axios from 'axios';
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
+    https://api.github.com/users/austinkelsay
 */
 
+
+axios.get('https://api.github.com/users/royeradames')
+.then( response =>{
+  let card = cards(response.data);
+  document.querySelector('.cards').appendChild(card);
+});
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -16,7 +24,67 @@
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
+function cards(data){
 
+//initializing card components
+  const newCard = document.createElement('div');
+  newCard.classList.add('card');
+
+  const img = document.createElement('img');
+  img.src = data.avatar_url;
+
+  const cardInfo = document.createElement('div');
+  cardInfo.classList.add('card-info');
+
+  const name = document.createElement('h3');
+  name.textContent = data.name;
+  name.classList.add('name');
+
+  const userName = document.createElement('p')
+  userName.classList.add('user-name')
+  userName.textContent = data.login;
+
+  const location = document.createElement('p')
+  location.textContent = data.location;
+  
+  const profile = document.createElement('p')
+  profile.textContent = 'Profile: ';
+  const profileLink = document.createElement('a')
+  profileLink.href = data.html_url;
+  profileLink.textContent = `Address to users github page.`;
+  profile.appendChild(profileLink);
+
+  const followers = document.createElement('p');
+  followers.textContent = `Followers: ${data.followers}`;
+
+  const following = document.createElement('p')
+  following.textContent = `Following: ${data.following}`;
+  
+  
+  const bio = document.createElement('p')
+  //if there is no bio say that is coming soon
+  if(data.bio === null){
+    console.log('in null')
+    bio.textContent = `Bio: Coming soon.`;
+  }else{
+    bio.textContent = `Bio: ${data.bio}`;
+  }
+  
+
+  //assembling components
+  newCard.appendChild(img);
+  newCard.appendChild(cardInfo);
+
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+
+  return newCard;
+}
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
