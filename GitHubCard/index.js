@@ -5,13 +5,16 @@ import axios from 'axios';
     https://api.github.com/users/<your name>
     https://api.github.com/users/austinkelsay
 */
+const followersArray = ['royeradames', 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
 
+followersArray.forEach( item =>{
+  axios.get(`https://api.github.com/users/${item}`)
+  .then( response =>{
+    let card = cards(response.data);
+    document.querySelector('.cards').appendChild(card);
+  });
 
-axios.get('https://api.github.com/users/royeradames')
-.then( response =>{
-  let card = cards(response.data);
-  document.querySelector('.cards').appendChild(card);
-});
+})
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -52,7 +55,7 @@ function cards(data){
   const profileLink = document.createElement('a')
   profileLink.href = data.html_url;
   profileLink.textContent = `Address to users github page.`;
-  profile.appendChild(profileLink);
+  
 
   const followers = document.createElement('p');
   followers.textContent = `Followers: ${data.followers}`;
@@ -74,14 +77,14 @@ function cards(data){
   //assembling components
   newCard.appendChild(img);
   newCard.appendChild(cardInfo);
-
-  cardInfo.appendChild(name);
-  cardInfo.appendChild(userName);
-  cardInfo.appendChild(location);
-  cardInfo.appendChild(profile);
-  cardInfo.appendChild(followers);
-  cardInfo.appendChild(following);
-  cardInfo.appendChild(bio);
+    cardInfo.appendChild(name);
+    cardInfo.appendChild(userName);
+    cardInfo.appendChild(location);
+    cardInfo.appendChild(profile);
+      profile.appendChild(profileLink);
+    cardInfo.appendChild(followers);
+    cardInfo.appendChild(following);
+    cardInfo.appendChild(bio);
 
   return newCard;
 }
@@ -96,7 +99,7 @@ function cards(data){
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
