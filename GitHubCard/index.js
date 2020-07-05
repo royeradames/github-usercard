@@ -5,8 +5,10 @@ import axios from 'axios';
     https://api.github.com/users/<your name>
     https://api.github.com/users/austinkelsay
 */
-const followersArray = ['royeradames', 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+//list of users to make a card off
+const followersArray = ['royeradames', 'austinkelsay','tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
 
+//getting users information, and adding it to the dom
 followersArray.forEach( item =>{
   axios.get(`https://api.github.com/users/${item}`)
   .then( response =>{
@@ -54,6 +56,7 @@ function cards(data){
   profile.textContent = 'Profile: ';
   const profileLink = document.createElement('a')
   profileLink.href = data.html_url;
+  profileLink.target = `_blank`;
   profileLink.textContent = `Address to users github page.`;
   
 
